@@ -1,0 +1,21 @@
+2025/05/28 18:26:57 
+Server Configuration:
+2025/05/28 18:26:57 ====================
+2025/05/28 18:26:57 Storage Directory: files
+2025/05/28 18:26:57 Allowed Extensions: [.md .markdown .txt]
+2025/05/28 18:26:57 Max File Size: 10MB
+2025/05/28 18:26:57 Log Level: info
+2025/05/28 18:26:57 Log File: markdown_editor.log
+2025/05/28 18:26:57 
+Network Information:
+2025/05/28 18:26:57 ===================
+2025/05/28 18:26:57 Interface en0: 192.168.50.210
+2025/05/28 18:26:57 Interface en1: 192.168.50.136
+2025/05/28 18:26:57 
+Server starting on 0.0.0.0:8080
+2025/05/28 18:26:57 ====================
+2025/05/28 18:27:12 File read successfully: files/untitled.md
+2025/05/28 18:27:13 File read successfully: files/untitled.md
+2025/05/28 18:27:15 File read successfully: files/untitled.md
+2025/05/28 18:27:18 File saved successfully: files/untitled.md
+2025/05/28 18:27:29 File saved successfully: files/untitled.md
