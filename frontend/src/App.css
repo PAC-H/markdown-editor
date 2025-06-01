@@ -21,6 +21,11 @@
   padding: 20px;
   color: white;
   margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .App-header h1 {
@@ -28,9 +33,59 @@
   font-size: 2em;
 }
 
+.app-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.app-tab {
+  background-color: #404040;
+  border: none;
+  color: #888;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.app-tab:hover {
+  background-color: #555;
+  color: #ffffff;
+}
+
+.app-tab.active {
+  background-color: #61dafb;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
 @media (max-width: 768px) {
+  .App-header {
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    gap: 12px;
+  }
+
   .App-header h1 {
     font-size: 1.5em;
+  }
+
+  .app-tabs {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .app-tab {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 12px;
+    font-size: 13px;
   }
 
   main {

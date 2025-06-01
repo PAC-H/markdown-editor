@@ -1,0 +1,218 @@
+.daily-note-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.daily-note-modal {
+  background-color: #2a2a2a;
+  border-radius: 12px;
+  padding: 24px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border: 1px solid #404040;
+}
+
+.daily-note-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #404040;
+}
+
+.daily-note-modal-header h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.daily-note-modal-close {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.daily-note-modal-close:hover {
+  color: #ffffff;
+  background-color: #404040;
+}
+
+.daily-note-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.daily-note-modal-textarea {
+  background-color: #1a1a1a;
+  border: 1px solid #404040;
+  border-radius: 8px;
+  padding: 12px;
+  color: #ffffff;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 100px;
+  transition: border-color 0.2s;
+}
+
+.daily-note-modal-textarea:focus {
+  outline: none;
+  border-color: #61dafb;
+  box-shadow: 0 0 0 2px rgba(97, 218, 251, 0.1);
+}
+
+.daily-note-modal-textarea::placeholder {
+  color: #666;
+}
+
+.daily-note-modal-textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.daily-note-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.daily-note-modal-cancel,
+.daily-note-modal-submit {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.daily-note-modal-cancel {
+  background-color: transparent;
+  color: #888;
+  border: 1px solid #404040;
+}
+
+.daily-note-modal-cancel:hover:not(:disabled) {
+  background-color: #404040;
+  color: #ffffff;
+}
+
+.daily-note-modal-submit {
+  background-color: #61dafb;
+  color: #1a1a1a;
+  border: none;
+}
+
+.daily-note-modal-submit:hover:not(:disabled) {
+  background-color: #4fa8c7;
+  transform: translateY(-1px);
+}
+
+.daily-note-modal-submit:disabled,
+.daily-note-modal-cancel:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.daily-note-modal-hint {
+  margin-top: 12px;
+  text-align: center;
+  color: #666;
+}
+
+.daily-note-modal-hint kbd {
+  background-color: #404040;
+  color: #ffffff;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-family: monospace;
+  margin: 0 2px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .daily-note-modal {
+    width: 95%;
+    padding: 20px;
+    margin: 20px;
+  }
+
+  .daily-note-modal-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .daily-note-modal-textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+    min-height: 80px;
+  }
+
+  .daily-note-modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .daily-note-modal-cancel,
+  .daily-note-modal-submit {
+    width: 100%;
+    padding: 12px;
+  }
+
+  .daily-note-modal-hint {
+    font-size: 12px;
+  }
+
+  .daily-note-modal-hint kbd {
+    font-size: 10px;
+  }
+}
+
+/* Animation */
+.daily-note-modal-backdrop {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.daily-note-modal {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+} 

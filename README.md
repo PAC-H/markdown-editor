@@ -12,10 +12,11 @@ A full-stack Markdown editor application with a React frontend and Go backend. T
 
 ## Prerequisites
 
-- Node.js (v14 or later)
-- Go (v1.16 or later)
+- Node.js (v14 or later) - for local development
+- Go (v1.16 or later) - for local development
+- Docker and Docker Compose - for containerized deployment
 
-## Setup
+## Local Development Setup
 
 1. Clone this repository
 2. Set up the backend:
@@ -32,6 +33,72 @@ A full-stack Markdown editor application with a React frontend and Go backend. T
    npm start
    ```
    The frontend development server will start on http://localhost:3000
+
+## Docker Deployment
+
+### Quick Start
+
+1. Make sure Docker and Docker Compose are installed on your system
+2. Clone this repository
+3. From the project root directory, run:
+   ```bash
+   docker-compose up --build
+   ```
+4. Access the application at http://localhost:3000
+
+### Docker Commands
+
+- Build and start the containers:
+  ```bash
+  docker-compose up --build
+  ```
+
+- Start existing containers:
+  ```bash
+  docker-compose up
+  ```
+
+- Stop the containers:
+  ```bash
+  docker-compose down
+  ```
+
+- View container logs:
+  ```bash
+  docker-compose logs -f
+  ```
+
+### Container Structure
+
+- Frontend Container:
+  - Runs on port 3000
+  - Nginx server serving the React application
+  - Automatically proxies API requests to the backend
+
+- Backend Container:
+  - Runs on port 8080
+  - Go server handling file operations
+  - Persistent volume for file storage
+
+### Volumes and Persistence
+
+The backend's `files` directory is persisted using a Docker volume. Files saved through the application will be stored in:
+```
+./backend/files
+```
+
+### Troubleshooting
+
+1. If the containers fail to start:
+   - Check if ports 3000 or 8080 are already in use
+   - Run `docker-compose down` and try again
+   
+2. If changes aren't reflected:
+   - Rebuild the containers with `docker-compose up --build`
+   
+3. If file permissions issues occur:
+   - Ensure the `backend/files` directory exists and has proper permissions
+   - Run `chmod 777 backend/files` if needed
 
 ## Usage
 
@@ -56,4 +123,9 @@ Files are stored in the `files` directory within the backend server's root direc
   
 - Backend:
   - Go
-  - Standard library (net/http) 
+  - Standard library (net/http)
+
+- Deployment:
+  - Docker
+  - Docker Compose
+  - Nginx 

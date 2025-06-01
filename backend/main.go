@@ -153,6 +153,91 @@ func getFile(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+func createDailyNote(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		log.Printf("Method not allowed: %s", r.Method)
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	var req DailyNoteRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		log.Printf("Error decoding request body: %v", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Use current date if not specified
+	date := req.Date
+	if date == "" {
+		date = getCurrentDate()
+	}
+
+	// Append content to daily note
+	if err := AppendToDailyNote(date, req.Content); err != nil {
+		log.Printf("Error creating/appending daily note: %v", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	log.Printf("Daily note entry added successfully for date: %s", date)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"message": "Daily note entry added successfully",
+		"date":    date,
+		"time":    getCurrentTime(),
+	})
+}
+
+func listDailyNotes(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		log.Printf("Method not allowed: %s", r.Method)
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	notes, err := ListDailyNotes()
+	if err != nil {
+		log.Printf("Error listing daily notes: %v", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	log.Printf("Listed %d daily notes", len(notes.Notes))
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(notes)
+}
+
+func getDailyNote(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		log.Printf("Method not allowed: %s", r.Method)
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	date := r.URL.Query().Get("date")
+	if date == "" {
+		date = getCurrentDate() // Default to today
+	}
+
+	note, err := GetDailyNote(date)
+	if err != nil {
+		if os.IsNotExist(err) {
+			log.Printf("Daily note not found for date: %s", date)
+			http.Error(w, "Daily note not found", http.StatusNotFound)
+			return
+		}
+		log.Printf("Error reading daily note: %v", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	log.Printf("Daily note read successfully for date: %s", date)
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(note)
+}
+
 func main() {
 	// Load configuration
 	configPath := ParseFlags()
@@ -179,6 +264,9 @@ func main() {
 	// Setup HTTP handlers
 	http.HandleFunc("/api/save", enableCORS(saveFile))
 	http.HandleFunc("/api/get", enableCORS(getFile))
+	http.HandleFunc("/api/daily/create", enableCORS(createDailyNote))
+	http.HandleFunc("/api/daily/list", enableCORS(listDailyNotes))
+	http.HandleFunc("/api/daily/get", enableCORS(getDailyNote))
 
 	// Print startup information
 	log.Printf("\nServer Configuration:")
